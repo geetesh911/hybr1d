@@ -32,8 +32,9 @@ export class BuyerController {
   public createOrder = async (req: Request<ISellerIdParam, null, ICreateOrderDto>, res: Response, next: NextFunction): Promise<void> => {
     try {
       const sellerId: string = req.params.sellerId;
+      const buyerId: string = req.user.id;
       const { productIds } = req.body;
-      const order: Order = await this.buyerService.createOrder(sellerId, productIds);
+      const order: Order = await this.buyerService.createOrder(sellerId, buyerId, productIds);
       res.status(200).json({ data: order });
     } catch (error) {
       next(error);

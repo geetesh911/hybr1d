@@ -5,6 +5,7 @@ import { IRoutes } from '@/interfaces/routes.interface';
 import { ISellerIdParam } from '@/interfaces/common.interface';
 import { CreateOrderDto } from '@/dtos/buyer.dto';
 import { validationMiddleware } from '@/middlewares/validation.middleware';
+import { authMiddleware } from '@/middlewares/auth.middleware';
 
 @injectable()
 export class BuyerRoute implements IRoutes {
@@ -20,6 +21,7 @@ export class BuyerRoute implements IRoutes {
     this.router.get<ISellerIdParam>(`${this.path}/seller-catalog/:sellerId`, this.buyerController.getSellerCatalog);
     this.router.post<ISellerIdParam>(
       `${this.path}/create-order/:sellerId`,
+      authMiddleware(),
       validationMiddleware(this.createOrderDto),
       this.buyerController.createOrder,
     );

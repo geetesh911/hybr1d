@@ -10,7 +10,7 @@ export class CatalogRepository extends BaseRepository {
   }
 
   public async getSellerCatalog(sellerId: string): Promise<Catalog> {
-    const catalog: Catalog = await this.prismaService.catalog.findUnique({ where: { userId: sellerId } });
+    const catalog: Catalog = await this.prismaService.catalog.findUnique({ where: { sellerId } });
 
     return catalog;
   }

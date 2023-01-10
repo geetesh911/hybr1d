@@ -1,9 +1,10 @@
 import { injectable } from 'tsyringe';
-import { Catalog, Order } from '@prisma/client';
+import { Catalog, Order, Role } from '@prisma/client';
 import { UsersRepository } from '@/repositories/user.repository';
 import { CatalogRepository } from '@/repositories/catalog.repository';
 import { IUser } from '@/interfaces/users.interface';
 import { OrderRepository } from '@/repositories/order.repository';
+import { HttpException } from '@/exceptions/HttpException';
 
 @injectable()
 export class BuyerService {
@@ -25,8 +26,13 @@ export class BuyerService {
     return catalog;
   }
 
-  public async createOrder(sellerId: string, productIds: string[]): Promise<Order> {
-    const order: Order = await this.orderRepository.createOrder(sellerId, productIds);
+  public async createOrder(sellerId: string, buyerId: string, productIds: string[]): Promise<Order> {
+    const user: IUser = await this.userRepository.getUserFromId(buyerId);
+
+    if (!user) throw new HttpException(409, "User doesn't exist");
+    if (user.role === Role.SELLER) throw new HttpException(403, 'User Forbidden');
+
+    const order: Order = await this.orderRepository.createOrder(sellerId, buyerId, productIds);
 
     return order;
   }
