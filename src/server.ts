@@ -5,6 +5,7 @@ import { IRoutes } from './interfaces/routes.interface';
 import { AuthRoute } from '@/routes/auth.route';
 import { IndexRoute } from '@/routes/index.route';
 import { UsersRoute } from '@/routes/users.route';
+import { BuyerRoute } from './routes/buyer.route';
 
 validateEnv();
 
@@ -13,6 +14,7 @@ validateEnv();
   { token: 'Routes', useToken: IndexRoute },
   { token: 'Routes', useToken: AuthRoute },
   { token: 'Routes', useToken: UsersRoute },
+  { token: 'Routes', useToken: BuyerRoute },
 ])
 export class RoutesRegistry {}
 

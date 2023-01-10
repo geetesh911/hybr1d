@@ -26,6 +26,11 @@ export class UsersRepository extends BaseRepository {
     return user;
   }
 
+  public async getSellers(): Promise<IUser[]> {
+    const sellers: User[] = await this.prismaService.user.findMany({ where: { role: Role.SELLER } });
+    return sellers.map(seller => this.exclude(seller, 'password'));
+  }
+
   public async createUser(createUserInput: ICreateUserDto): Promise<IUser> {
     const { name, email, password } = createUserInput;
 
