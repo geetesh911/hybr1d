@@ -12,7 +12,7 @@ export class OrderRepository extends BaseRepository {
   public async createOrder(sellerId: string, productIds: string[]): Promise<Order> {
     const order: Order = await this.prismaService.order.create({
       data: {
-        userId: sellerId,
+        buyer: { connect: { id: sellerId } },
         products: { connect: productIds.map(id => ({ id })) },
       },
     });

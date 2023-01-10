@@ -6,6 +6,7 @@ import { AuthRoute } from '@/routes/auth.route';
 import { IndexRoute } from '@/routes/index.route';
 import { UsersRoute } from '@/routes/users.route';
 import { BuyerRoute } from './routes/buyer.route';
+import { ProductRoute } from './routes/product.route';
 
 validateEnv();
 
@@ -15,6 +16,7 @@ validateEnv();
   { token: 'Routes', useToken: AuthRoute },
   { token: 'Routes', useToken: UsersRoute },
   { token: 'Routes', useToken: BuyerRoute },
+  { token: 'Routes', useToken: ProductRoute },
 ])
 export class RoutesRegistry {}
 
