@@ -43,7 +43,15 @@ Run database migrations
     
 ## Run Project
 
+Dev environment
+
 ```bash
   yarn dev
+```
+
+Production environment
+
+```bash
+  yarn start
 ```
     
