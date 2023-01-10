@@ -9,6 +9,12 @@ export class OrderRepository extends BaseRepository {
     super('order');
   }
 
+  public async getSellerOrders(sellerId: string): Promise<Order[]> {
+    const orders: Order[] = await this.prismaService.order.findMany({ where: { sellerId } });
+
+    return orders;
+  }
+
   public async createOrder(sellerId: string, buyerId: string, productIds: string[]): Promise<Order> {
     const order: Order = await this.prismaService.order.create({
       data: {
