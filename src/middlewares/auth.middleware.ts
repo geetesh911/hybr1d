@@ -15,12 +15,10 @@ export const authMiddleware = <P, ResBody = any, ReqBody = any, ReqQuery = objec
         return;
       }
       const secretKey: string = SECRET_KEY;
-      console.log(Authorization, secretKey);
       const user = (await verify(Authorization, secretKey)) as IDataStoredInToken;
 
-      console.log(user);
       if (!user || (role && role !== user.role)) {
-        next(new HttpException(401, 'Invalid authentication token'));
+        next(new HttpException(403, 'User Forbidden'));
         return;
       }
 

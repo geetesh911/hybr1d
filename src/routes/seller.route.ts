@@ -5,6 +5,7 @@ import { IRoutes } from '@/interfaces/routes.interface';
 import { CreateCatalogDto } from '@/dtos/seller.dto';
 import { validationMiddleware } from '@/middlewares/validation.middleware';
 import { authMiddleware } from '@/middlewares/auth.middleware';
+import { Role } from '@prisma/client';
 
 @injectable()
 export class SellerRoute implements IRoutes {
@@ -19,7 +20,7 @@ export class SellerRoute implements IRoutes {
     this.router.get(`${this.path}/orders/`, authMiddleware(), this.sellerController.getSellerOrders);
     this.router.post(
       `${this.path}/create-catalog/`,
-      authMiddleware(),
+      authMiddleware(Role.SELLER),
       validationMiddleware(this.createCatalogDto),
       this.sellerController.createCatalog,
     );

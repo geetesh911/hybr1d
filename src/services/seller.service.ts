@@ -1,8 +1,7 @@
 import { injectable } from 'tsyringe';
-import { Catalog, Order, Role } from '@prisma/client';
+import { Catalog, Order } from '@prisma/client';
 import { UsersRepository } from '@/repositories/user.repository';
 import { CatalogRepository } from '@/repositories/catalog.repository';
-import { IUser } from '@/interfaces/users.interface';
 import { HttpException } from '@/exceptions/HttpException';
 import { ICreateCatalogDto } from '@/dtos/seller.dto';
 import { OrderRepository } from '@/repositories/order.repository';
@@ -21,11 +20,6 @@ export class SellerService {
     return orders;
   }
   public async createCatalog(sellerId: string, createCatalogInput: ICreateCatalogDto): Promise<Catalog> {
-    const user: IUser = await this.userRepository.getUserFromId(sellerId);
-
-    if (!user) throw new HttpException(409, "User doesn't exist");
-    if (user.role === Role.BUYER) throw new HttpException(403, 'User Forbidden');
-
     const sellerCatalog: Catalog = await this.catalogRepository.getSellerCatalog(sellerId);
 
     if (sellerCatalog) throw new HttpException(409, 'Catalog already created');
